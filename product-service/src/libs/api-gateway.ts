@@ -4,12 +4,30 @@ import type { FromSchema } from "json-schema-to-ts";
 type ValidatedAPIGatewayProxyEvent<S> = Omit<APIGatewayProxyEvent, 'body'> & { body: FromSchema<S> }
 export type ValidatedEventAPIGatewayProxyEvent<S> = Handler<ValidatedAPIGatewayProxyEvent<S>, APIGatewayProxyResult>
 
-export const formatJSONResponse = (response: Record<string, unknown>) => {
+export const FormatJSONResponse = (response: Record<string, unknown>) => {
   return {
     statusCode: 200,
-    headers: {
-      'Content-Type': 'text/plain'
-    },
+    body: JSON.stringify(response)
+  }
+}
+
+export const BadRequestResponse = (response: Record<string, unknown>) => {
+  return {
+    statusCode: 400,
+    body: JSON.stringify(response)
+  }
+}
+
+export const NotFoundResponse = (response: Record<string, unknown>) => {
+  return {
+    statusCode: 404,
+    body: JSON.stringify(response)
+  }
+}
+
+export const InternalServerError = (response: Record<string, unknown>) => {
+  return {
+    statusCode: 500,
     body: JSON.stringify(response)
   }
 }
